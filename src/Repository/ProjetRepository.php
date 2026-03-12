@@ -16,6 +16,27 @@ class ProjetRepository extends ServiceEntityRepository
         parent::__construct($registry, Projet::class);
     }
 
+
+public function searchProjets(?string $titre, ?string $statut): array
+{
+    
+    $qb = $this->createQueryBuilder('p');
+
+    
+    if ($titre) {
+        $qb->andWhere('p.titre LIKE :t')
+           ->setParameter('t', '%'.$titre.'%');
+    }
+
+    if ($statut) {
+        $qb->andWhere('p.statut = :s')
+           ->setParameter('s', $statut);
+    }
+    return $qb->orderBy('p.id', 'DESC')
+              ->getQuery()
+              ->getResult();
+}
+
     //    /**
     //     * @return Projet[] Returns an array of Projet objects
     //     */

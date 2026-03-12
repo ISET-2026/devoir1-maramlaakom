@@ -6,7 +6,7 @@ use App\Repository\EtudiantRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
-
+use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: EtudiantRepository::class)]
 class Etudiant
 {
@@ -18,8 +18,10 @@ class Etudiant
     #[ORM\Column(length:255)]
     private ?string $nom = null;
 
-    #[ORM\Column(length:255)]
-    private ?string $email = null;
+#[ORM\Column(length: 255)]
+#[Assert\NotBlank(message: "L'email est obligatoire")]
+#[Assert\Email(message: "L'adresse email n'est pas valide")]
+private ?string $email = null;
 
     #[ORM\Column(length:255)]
     private ?string $niveau = null;

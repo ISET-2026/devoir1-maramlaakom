@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}new Projet{% endblock %}
+
+{% block body %}
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h1 class="mb-4 text-primary"> new  projet</h1>
+
+            <div class="card border-0 shadow-sm p-4">
+                {{ form_start(formulaire) }}
+                    
+                    <div class="mb-3">
+                        {{ form_row(formulaire.titre) }}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form_row(formulaire.description) }}
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            {{ form_row(formulaire.dateDebut) }}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            {{ form_row(formulaire.dateFin) }}
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form_row(formulaire.statut) }}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form_row(formulaire.enseignant) }}
+                    </div>
+                    <div class="mb-4 bg-light p-3 rounded shadow-sm">
+    
+    
+    <div class="row g-2">
+        <div class="mb-4 bg-light p-3 rounded shadow-sm">
+    <label class="form-label fw-bold mb-3"> Affecter des étudiants :</label>
+    
+    {% for etudiant in formulaire.etudiants %}
+        <div class="form-check mb-2">
+            {{ form_widget(etudiant) }}
+            {{ form_label(etudiant) }} 
+        </div>
+    {% endfor %}
+</div>
+        
+    </div>
+</div>
+
+                
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary  fw-bold">  ajouter  projet</button>
+                    </div>
+
+
+                {{ form_end(formulaire) }}
+            </div>
+
+            <a href="{{ path('app_projet_index') }}" class="btn btn-link mt-3 text-muted">
+                ← Retour à la liste des projets
+            </a>
+        </div>
+    </div>
+{% endblock %}

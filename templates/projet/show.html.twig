@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détails du Projet{% endblock %}
+
+{% block body %}
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h1 class="text-primary"> Details du Projet</h1>
+                <div>
+                    <a href="{{ path('app_projet_index') }}" class="btn btn-outline-secondary btn-sm">
+                        ← Retour à la liste
+                    </a>
+                </div>
+            </div>
+
+            <div class="card border-0 shadow-sm">
+                <div class="card-header  text-dark d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">{{ projet.titre }}</h5>
+                    {% if projet.statut == 'En preparation' %}
+                        <span class="badge bg-secondary"> {{ projet.statut }}</span>
+                    {% elseif projet.statut == 'En cours' %}
+                        <span class="badge bg-primary"> {{ projet.statut }}</span>
+                    {% elseif projet.statut == 'Terminé' %}
+                        <span class="badge bg-success"> {{ projet.statut }}</span>
+                    {% endif %}
+                </div>
+                <div class="card-body p-4">
+                    <div class="row mb-4">
+                        <div class="col-md-6 border-end">
+                            <h6 class="text-muted small"> Description</h6>
+                            <p class="lead">{{ projet.description }}</p>
+                        </div>
+                        <div class="col-md-6 ps-4">
+                            <h6 class="text-muted small">Calendrier</h6>
+                            <ul class="list-unstyled">
+                                <li class="mb-2"><strong>Date Début :</strong> {{ projet.dateDebut ? projet.dateDebut|date('d/m/Y') : '-' }}</li>
+                                <li><strong>Date Fin :</strong> {{ projet.dateFin ? projet.dateFin|date('d/m/Y') : '-' }}</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="mt-4">
+                        <h6 class="text-muted small"> Étudiants affectés</h6>
+                        {% if projet.etudiants is not empty %}
+                            <div class="d-flex flex-wrap gap-2 mt-2">
+                                {% for etudiant in projet.etudiants %}
+                                    <span class="badge bg-light text-dark border p-2">
+                                         {{ etudiant.nom }} ({{ etudiant.niveau }})
+                                    </span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <p class="text-muted font-italic">Aucun étudiant affecté à ce projet.</p>
+                        {% endif %}
+                    </div>
+                </div>
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
