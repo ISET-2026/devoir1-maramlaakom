@@ -6,6 +6,7 @@ use App\Repository\ProjetRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ProjetRepository::class)]
 class Projet
@@ -15,18 +16,23 @@ class Projet
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length:255)]
+    #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Le titre est obligatoire")]
+    #[Assert\Length(min: 5, minMessage: "Le titre doit faire au moins 5 caractères")]
     private ?string $titre = null;
 
-    #[ORM\Column(length:255)]
+    #[ORM\Column(type: 'text' ,nullable: true)]
     private ?string $description = null;
 
-    #[ORM\Column(nullable: true)]
+    #[ORM\Column(type: 'datetime' ,nullable: true)]
     private ?\DateTime $dateDebut = null;
-
-    #[ORM\Column(nullable: true)]
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    #[Assert\Expression(
+        "this.getDateFin() >= this.getDateDebut()",
+        message: "La date de fin ne peut pas être avant la date de début"
+    )]
     private ?\DateTime $dateFin = null;
-
+    
     #[ORM\Column(length:255)]
     private ?string $statut = null;
 
@@ -34,7 +40,10 @@ class Projet
     private ?Enseignant $enseignant = null;
 
     #[ORM\ManyToMany(targetEntity: Etudiant::class, inversedBy: 'projets')]
+   
+    #[Assert\Count(min: 1,minMessage: "Il faut au moins un étudiant par projet")]
     private Collection $etudiants;
+    
 
     public function __construct()
     {

@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvel Étudiant{% endblock %}
+
+{% block body %}
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h1 class="mb-4 text-primary">Ajouter un nouvel étudiant</h1>
+
+            <div class="card border-0 shadow-sm p-4">
+                {{ form_start(formulaire) }}
+                    
+                    <div class="mb-3">
+                        {{ form_row(formulaire.nom) }}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form_row(formulaire.email) }}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form_row(formulaire.niveau) }}
+                    </div>
+                    {% if formulaire.projets is defined %}
+                        <div class="mb-4 bg-light p-3 rounded">
+                            <label class="form-label fw-bold">Affecter à des projets :</label>
+                            {{ form_widget(formulaire.projets) }}
+                        </div>
+                    {% endif %}
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary fw-bold">+Ajouter l'étudiant</button>
+                    </div>
+
+                {{ form_end(formulaire) }}
+            </div>
+
+            <a href="{{ path('app_etudiant_index') }}" class="btn btn-link mt-3 text-muted">
+                ← Retour 
+            </a>
+        </div>
+    </div>
+{% endblock %}
